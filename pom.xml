@@ -20,8 +20,8 @@
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 	<scm>
-		<connection>scm:git:git://github.com/akeo-satish/ledgefarm-java-sdk.git</connection>
-		<developerConnection>scm:git:git@github.com:akeo-satish/ledgefarm-java-sdk.git</developerConnection>
+		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
+		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
 		<url>https://github.com/akeo-satish/ledgefarm-java-sdk</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -60,7 +60,7 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5.3</version>
 					<configuration>
-						<localCheckout>true</localCheckout>
+						<localCheckout>false</localCheckout>
 						<pushChanges>false</pushChanges>
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
