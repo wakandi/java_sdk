@@ -5,9 +5,9 @@ Java maven package can be used in operator application to communicate with Wakan
 
 -   Maven: In this we need to run following dependency need to be added in pom.xml file.
 ><dependency>
-    <groupId>com.google.code.gson</groupId>
-    <artifactId>gson</artifactId>
-    <version>2.8.5</version>
+    <groupId>com.ledgefarm.core</groupId>
+    <artifactId>ledgefarm</artifactId>
+    <version>1.0.0</version>
 </dependency>
 
 *Compatibility of package is with Java version 7 and above versions
