@@ -20,7 +20,7 @@
 	<scm>
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
-		<url>https://github.com/akeo-satish/ledgefarm-java-sdk</url>
+		<url>https://github.com/akeo-satish/java-sdk</url>
 		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
