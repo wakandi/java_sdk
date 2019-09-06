@@ -5,7 +5,7 @@
 
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 
 
@@ -15,13 +15,38 @@
 
 	<name>com.ledgefarm.core</name>
 
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<description>Transfer money outside with private tokens</description>
+	<url>https://github.com/akeo-satish/java-sdk</url>
+
+	<organization>
+		<url>https://github.com/akeo-satish</url>
+		<name>Wakandi</name>
+	</organization>
+	<inceptionYear>2018</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Satish Somani</name>
+			<email>satish@akeo.no</email>
+			<organization>Wakandi</organization>
+			<organizationUrl>https://github.com/akeo-satish</organizationUrl>
+			<timezone>UTC+05:30</timezone>
+		</developer>
+	</developers>
+
+
 	<scm>
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
 		<url>https://github.com/akeo-satish/java-sdk</url>
-		<tag>com.ledgefarm.core-1.0</tag>
+		<tag>Head</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
