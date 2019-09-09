@@ -5,7 +5,7 @@
 
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 
 
@@ -46,7 +46,7 @@
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
 		<url>https://github.com/akeo-satish/java-sdk</url>
-		<tag>com.ledgefarm.core-1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
