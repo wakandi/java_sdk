@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0.1909111028</version>
+	<version>1.0.1909111029-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 	<name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
@@ -33,7 +33,7 @@
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
 		<url>https://github.com/akeo-satish/java-sdk</url>
-		<tag>com.ledgefarm.core-1.0.1909111028</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
