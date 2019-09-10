@@ -2,35 +2,24 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0.190910-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
-
-
-
-
-
-
 	<name>com.ledgefarm.core</name>
-
 	<description>Transfer money outside with private tokens</description>
 	<url>https://github.com/akeo-satish/java-sdk</url>
-
 	<organization>
 		<url>https://github.com/akeo-satish</url>
 		<name>Wakandi</name>
 	</organization>
 	<inceptionYear>2018</inceptionYear>
-
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 	<developers>
 		<developer>
 			<name>Satish Somani</name>
@@ -40,8 +29,6 @@
 			<timezone>UTC+05:30</timezone>
 		</developer>
 	</developers>
-
-
 	<scm>
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
@@ -58,9 +45,6 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-
-
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
@@ -91,7 +75,6 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-
 	</dependencies>
 	<build>
 		<extensions>
@@ -176,8 +159,6 @@
 						<autoReleaseAfterClose>true</autoReleaseAfterClose>
 					</configuration>
 				</plugin>
-
-
 				<plugin>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>1.4.0</version>
@@ -186,34 +167,33 @@
 		</pluginManagement>
 	</build>
 	<profiles>
-<!-- GPG Signature on release -->
-<profile>
-<id>release-sign-artifacts</id>
-<activation>
-<property>
-<name>release</name>
-<value>true</value>
-</property>
-</activation>
-<build>
-<plugins>
-<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-gpg-plugin</artifactId>
-<version>1.6</version>
-<executions>
-<execution>
-<id>sign-artifacts</id>
-<phase>verify</phase>
-<goals>
-<goal>sign</goal>
-</goals>
-</execution>
-</executions>
-</plugin>
-</plugins>
-</build>
-</profile>
-</profiles>
-
+	<!-- GPG Signature on release -->
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>release</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
