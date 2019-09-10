@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0.1909111027</version>
+	<version>1.0.1909111043-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 	<name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
@@ -96,6 +96,7 @@
 						<pushChanges>false</pushChanges>
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<releaseProfiles>release</releaseProfiles>
+						<performRelease>true </performRelease>
 						<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
 					</configuration>
 					<dependencies>
