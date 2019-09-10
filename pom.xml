@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ledgefarm.core</groupId>
 	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0.190911-SNAPSHOT</version>
+	<version>1.0.1909111015-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 	<name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
