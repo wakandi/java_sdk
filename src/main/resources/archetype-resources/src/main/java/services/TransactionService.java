@@ -19,6 +19,23 @@ public class TransactionService extends LedgefarmService
 		JsonObject responseObject = super.sendHttpGet(null, "transaction?limit=" + limit + "&offset=" + offset);
 		return this.mapToListObject(responseObject);
 	}
+	
+	public List<Transaction> getByWallet(String wallet, int limit, int offset) throws IOException,LedgefarmException
+	{
+		JsonObject responseObject = super.sendHttpGet(null, "transaction?limit=" + limit + "&offset=" + offset + "&wallet=" +wallet);
+		return this.mapToListObject(responseObject);
+	}
+	public List<Transaction> getByToken(String token, int limit, int offset) throws IOException,LedgefarmException
+	{
+		JsonObject responseObject = super.sendHttpGet(null, "transaction?limit=" + limit + "&offset=" + offset + "&token=" +token);
+		return this.mapToListObject(responseObject);
+	}
+	
+	public List<Transaction> get(String transactionId) throws IOException,LedgefarmException
+	{
+		JsonObject responseObject = super.sendHttpGet(null, "transaction?id=" + transactionId);
+		return this.mapToListObject(responseObject);
+	}
 
 	private List<Transaction> mapToListObject(JsonObject jsonObject)  throws LedgefarmException
 	{
@@ -31,11 +48,11 @@ public class TransactionService extends LedgefarmService
 	   for (int i = 0; i < jarray.size(); i++) {
 		JsonObject object = jarray.get(i).getAsJsonObject();
 		Transaction transaction = new Transaction();
-		final ArrayList<TransFee> transfees = new ArrayList<>();
+		final ArrayList<Fee> transfees = new ArrayList<>();
 
 		transaction.setTransactionId(object.get("transactionId").getAsString());
-		transaction.setMessage(object.get("message").getAsString());
-		transaction.setOperationName(object.get("operationName").getAsString());
+		//transaction.setTokenTransactionId(object.get("tokenTransactionId").getAsString());
+		transaction.setOperation(object.get("operation").getAsString());
 		transaction.setAmount(object.get("amount").getAsDouble());
 
 		String dateStr = object.get("timestamp").getAsString();
@@ -44,18 +61,18 @@ public class TransactionService extends LedgefarmService
 		transaction.setTimestamp(birthDate);
 
 		//transaction.setTimestamp(object.get("isBlocked").getAsString());
-		transaction.setTo(object.get("to").getAsString());
+		transaction.setToWallet(object.get("toWallet").getAsString());
 		transaction.setToken(object.get("token").getAsString());
 		transaction.setParticipantInvoking(object.get("participantInvoking").getAsString());
-		transaction.setFrom(object.get("from").getAsString());
+		transaction.setFromWallet(object.get("fromWallet").getAsString());
 		JsonArray assetArray = object.getAsJsonArray("fee");
 		for(int j=0;j<assetArray.size();j++)
 		{
 			JsonObject feeobject = assetArray.get(i).getAsJsonObject();
-			TransFee transfee = new TransFee();
+			Fee transfee = new Fee();
 			transfee.setAmount(feeobject.get("amount").getAsDouble());
 			transfee.setWallet(feeobject.get("wallet").getAsString());
-			transfee.setMsg(feeobject.get("msg").getAsString());
+			transfee.setMemo(feeobject.get("memo").getAsString());
 			transfees.add(asset);
 		}
 		transaction.setAssets(assets);
@@ -64,7 +81,7 @@ public class TransactionService extends LedgefarmService
 	   	return transactions;
 		}
 	JsonObject object  = jsonObject.getAsJsonObject("error");
-	throw new LedgefarmException(object.get("message").getAsString(),object.get("errorCode").getAsString());
+	throw new LedgefarmException(object.get("message").getAsString(),object.get("error").getAsString());
 	}
 
 }

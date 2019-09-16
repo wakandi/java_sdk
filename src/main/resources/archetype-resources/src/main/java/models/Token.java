@@ -1,6 +1,6 @@
 package com.ledgefarm.core;
 
-public class Asset
+public class Token
 {
 	private String Name;
 	public final String getName()

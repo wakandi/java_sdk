@@ -3,33 +3,33 @@ import java.math.*;
 
 public class Fee
 {
-	private String to;
-	public final String getTo()
+	private String ToWallet;
+	public final String getToWallet()
 	{
-		return to;
+		return ToWallet;
 	}
-	public final void setTo(String value)
+	public final void setToWallet(String value)
 	{
-		to = value;
+		ToWallet = value;
 	}
 
-	private Double amount = new Double(0);
+	private Double Amount = new Double(0);
 	public final Double getAmount()
 	{
-		return amount;
+		return Amount;
 	}
 	public final void setAmount(Double value)
 	{
-		amount = value;
+		Amount = value;
 	}
 
-	private String name;
-	public final String getName()
+	private String Memo;
+	public final String getMemo()
 	{
-		return name;
+		return Memo;
 	}
-	public final void setName(String value)
+	public final void setMemo(String value)
 	{
-		name = value;
+		Memo = value;
 	}
 }

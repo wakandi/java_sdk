@@ -8,26 +8,26 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonArray;
 public class WalletService extends LedgefarmService
 {
-	public WalletService(String token)
+	public WalletService(String accessKey)
 	{
-		super(token);
+		super(accessKey);
 	}
 
-	public Wallet create(String username) throws IOException,LedgefarmException
+	public Wallet create(String walletName) throws IOException,LedgefarmException
 	{
 		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("username",username);
+		dataObj.addProperty("walletName",walletName);
 		JsonObject responseObject = super.sendHttpPost(dataObj, "wallet");
 		JsonObject object  = this.validateResponse(responseObject);
 		Wallet wallet = new Wallet();
-		wallet.setAccessToken(object.get("accesstoken").getAsString());
-		wallet.setUsername(object.get("username").getAsString());
+		wallet.setAccessKey(object.get("accessKey").getAsString());
+		wallet.setWalletName(object.get("walletName").getAsString());
 		return wallet;
 	}
 
-	public List<Wallet> get(String username) throws IOException,LedgefarmException
+	public List<Wallet> get(String walletName) throws IOException,LedgefarmException
 	{
-		JsonObject responseObject = super.sendHttpGet(null, "user/" + username);
+		JsonObject responseObject = super.sendHttpGet(null, "user/" + walletName);
 		return this.mapToListObject(responseObject);
 	}
 
@@ -37,26 +37,26 @@ public class WalletService extends LedgefarmService
 		return this.mapToListObject(responseObject);
 	}
 
-	public Wallet block(String userId) throws IOException,LedgefarmException
+	public Wallet block(String walletName) throws IOException,LedgefarmException
 	{
 		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("username",userId);
-		dataObj.addProperty("blockStatus",new Boolean(true));
+		dataObj.addProperty("walletName",walletName);
+		dataObj.addProperty("blocked",new Boolean(true));
 		JsonObject responseObject = super.sendHttpPut(dataObj, "wallet");
 		JsonObject object  = this.validateResponse(responseObject);
 		Wallet wallet = new Wallet();
-		wallet.setIsBlocked(object.get("blockStatus").getAsBoolean());
+		wallet.setBlocked(object.get("blocked").getAsBoolean());
 		return wallet;
 	}
-	public Wallet unblock(String userId) throws IOException,LedgefarmException
+	public Wallet unblock(String walletName) throws IOException,LedgefarmException
 	{
 		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("username",userId);
-		dataObj.addProperty("blockStatus",new Boolean(false));
+		dataObj.addProperty("walletName",walletName);
+		dataObj.addProperty("blocked",new Boolean(false));
 		JsonObject responseObject = super.sendHttpPut(dataObj, "wallet");
 		JsonObject object  = this.validateResponse(responseObject);
 		Wallet wallet = new Wallet();
-		wallet.setIsBlocked(object.get("blockStatus").getAsBoolean());
+		wallet.setBlocked(object.get("blocked").getAsBoolean());
 		return wallet;
 	}
 	private JsonObject validateResponse(JsonObject jsonObject) throws LedgefarmException
@@ -79,28 +79,28 @@ public class WalletService extends LedgefarmService
 		
 	   JsonArray jarray = jsonObject.getAsJsonArray("data");
 	   for (int i = 0; i < jarray.size(); i++) {
-		final ArrayList<Asset> assets = new ArrayList<>();
+		final ArrayList<Token> tokens = new ArrayList<>();
 		JsonObject object = jarray.get(i).getAsJsonObject();
 		Wallet wallet = new Wallet();
-		wallet.setIsBlocked(object.get("isBlocked").getAsBoolean());
-		wallet.setUsername(object.get("username").getAsString());
+		wallet.setBlocked(object.get("blocked").getAsBoolean());
+		wallet.setWalletName(object.get("walletName").getAsString());
 		JsonArray assetArray = object.getAsJsonArray("tokens");
 		for(int j=0;j<assetArray.size();j++)
 		{
 			JsonObject feeobject = assetArray.get(i).getAsJsonObject();
-			Asset asset = new Asset();
-			asset.setName(feeobject.get("asset").getAsString());
-			asset.setBalance(feeobject.get("balance").getAsDouble());
-			asset.setNetbalance(feeobject.get("netBalance").getAsDouble());
-			assets.add(asset);
+			Token token = new Token();
+			token.setName(feeobject.get("token").getAsString());
+			token.setBalance(feeobject.get("balance").getAsDouble());
+			token.setNetbalance(feeobject.get("netBalance").getAsDouble());
+			tokens.add(token);
 		}
-		wallet.setAssets(assets);
+		wallet.setTokens(tokens);
 		wallets.add(wallet);
 	   	}
 		JsonObject jobject = jarray.get(0).getAsJsonObject();
 	   	return wallets;
 		}
 	JsonObject object  = jsonObject.getAsJsonObject("error");
-	throw new LedgefarmException(object.get("message").getAsString(),object.get("errorCode").getAsString());
+	throw new LedgefarmException(object.get("message").getAsString(),object.get("error").getAsString());
 	}
 }

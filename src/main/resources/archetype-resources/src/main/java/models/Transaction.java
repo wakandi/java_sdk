@@ -11,6 +11,17 @@ public class Transaction
 	{
 		TransactionId = value;
 	}
+
+	private String TokenRequestId;
+	public final String getTokenRequestId()
+	{
+		return TokenRequestId;
+	}
+	public final void setTokenRequestId(String value)
+	{
+		TokenRequestId = value;
+	}
+
 	private String Message;
 	public final String getMessage()
 	{
@@ -21,14 +32,14 @@ public class Transaction
 		Message = value;
 	}
 
-	private String OperationName;
-	public final String getOperationName()
+	private String Operation;
+	public final String getOperation()
 	{
-		return OperationName;
+		return Operation;
 	}
-	public final void setOperationName(String value)
+	public final void Operation(String value)
 	{
-		OperationName = value;
+		Operation = value;
 	}
 
 	private Double Amount;
@@ -53,15 +64,15 @@ public class Transaction
 		Timestamp = value;
 	}
 
-	private String To;
+	private String ToWallet;
 
-	public final String getTo()
+	public final String getToWallet()
 	{
-		return To;
+		return ToWallet;
 	}
-	public final void setTo(String value)
+	public final void setToWallet(String value)
 	{
-		To = value;
+		ToWallet = value;
 	}
 
 	private String Token;
@@ -86,21 +97,21 @@ public class Transaction
 		ParticipantInvoking = value;
 	}
 
-	private String From;
-	public final String getFrom()
+	private String FromWallet;
+	public final String getFromWallet()
 	{
-		return From;
+		return FromWallet;
 	}
-	public final void setFrom(String value)
+	public final void setFromWallet(String value)
 	{
-		From = value;
+		FromWallet = value;
 	}
-	private List<TransFee> Fees;
-	public final List<TransFee> getFees()
+	private List<Fee> Fees;
+	public final List<Fee> getFees()
 	{
 		return Fees;
 	}
-	public final void setFees(List<TransFee> value)
+	public final void setFees(List<Fee> value)
 	{
 		Fees = value;
 	}

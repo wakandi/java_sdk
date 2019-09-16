@@ -4,49 +4,41 @@ import java.util.*;
 
 public class Wallet
 {
-	private String Username;
-	public final String getUsername()
+	private String WalletName;
+	public final String getWalletName()
 	{
-		return Username;
+		return WalletName;
 	}
-	public final void setUsername(String value)
+	public final void setWalletName(String value)
 	{
-		Username = value;
+		WalletName = value;
 	}
-	private String AccessToken;
-	public final String getAccessToken()
+	private String AccessKey;
+	public final String getAccessKey()
 	{
-		return AccessToken;
+		return AccessKey;
 	}
-	public final void setAccessToken(String value)
+	public final void setAccessKey(String value)
 	{
-		AccessToken = value;
+		AccessKey = value;
 	}
-	private boolean IsBlocked;
-	public final boolean getIsBlocked()
+	private boolean Blocked;
+	public final boolean getBlocked()
 	{
-		return IsBlocked;
+		return Blocked;
 	}
-	public final void setIsBlocked(boolean value)
+	public final void setBlocked(boolean value)
 	{
-		IsBlocked = value;
+		Blocked = value;
 	}
-	private boolean BlockStatus;
-	public final boolean getBlockStatus()
+	
+	private List<Token> Tokens;
+	public final List<Token> getTokens()
 	{
-		return BlockStatus;
+		return Tokens;
 	}
-	public final void setBlockStatus(boolean value)
+	public final void setTokens(List<Token> value)
 	{
-		BlockStatus = value;
-	}
-	private List<Asset> Assets;
-	public final List<Asset> getAssets()
-	{
-		return Assets;
-	}
-	public final void setAssets(List<Asset> value)
-	{
-		Assets = value;
+		Tokens = value;
 	}
 }

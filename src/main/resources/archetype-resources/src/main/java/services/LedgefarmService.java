@@ -48,7 +48,7 @@ public class LedgefarmService {
             entity.setContentType("application/json");
             httpPost.setEntity(entity);
             httpPost.setHeader("api-key", this._apiKey);
-            httpPost.setHeader("token", this._token);
+            httpPost.setHeader("accessKey", this._token);
             execute = httpclient.execute(httpPost);
             jsonObject = this.deseralize(execute);
         } catch (IOException e) {
@@ -72,7 +72,7 @@ public class LedgefarmService {
             entity.setContentType("application/json");
             httpPut.setEntity(entity);
             httpPut.setHeader("api-key", this._apiKey);
-			httpPut.setHeader("token", this._token);
+			httpPut.setHeader("accessKey", this._token);
             execute = httpclient.execute(httpPut);
             jsonObject = this.deseralize(execute);
         } catch (IOException e) {
@@ -91,7 +91,7 @@ public class LedgefarmService {
         try {
             HttpGet httpGet = new HttpGet(this._apiUrl + requestUrl);
             httpGet.setHeader("api-key", this._apiKey);
-            httpGet.setHeader("token", this._token);
+            httpGet.setHeader("accessKey", this._token);
             execute = httpClient.execute(httpGet);
             jsonObject = this.deseralize(execute);
         } catch (IOException e) {

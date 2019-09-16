@@ -4,10 +4,10 @@ import java.io.*;
 public class LedgefarmException extends Exception
 {
     private String code ="Invalid_Operation";
-    public LedgefarmException(String s)
+    public LedgefarmException(String message)
     {
         // Call constructor of parent Exception
-        super(s);
+        super(message);
     }
     public LedgefarmException(String message, String code) {
 		super(message);
