@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Test set: com.ledgefarm.core.WalletServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 5.954 s <<< FAILURE! - in com.ledgefarm.core.WalletServiceTest
+GetWallet(com.ledgefarm.core.WalletServiceTest)  Time elapsed: 1.327 s  <<< ERROR!
+com.ledgefarm.core.LedgefarmException: User wallet not found
+	at com.ledgefarm.core.WalletServiceTest.GetWallet(WalletServiceTest.java:35)
+
+CreateWalletException(com.ledgefarm.core.WalletServiceTest)  Time elapsed: 4.293 s  <<< FAILURE!
+java.lang.AssertionError: Expected exception: com.ledgefarm.core.LedgefarmException
+
+CreateWallet(com.ledgefarm.core.WalletServiceTest)  Time elapsed: 0.303 s  <<< ERROR!
+com.ledgefarm.core.LedgefarmException: User wallet already exists
+	at com.ledgefarm.core.WalletServiceTest.CreateWallet(WalletServiceTest.java:18)
+
