@@ -1,29 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.ledgefarm.core</groupId>
-	<artifactId>com.ledgefarm.core</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>maven-archetype</packaging>
-
-
-
-
-
-
-	<name>Archetype - com.ledgefarm.core</name>
-
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ledgefarm.core</groupId>
+  <artifactId>com.ledgefarm.core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>com.ledgefarm.core</name>
+	<description>Transfer money outside with private tokens</description>
+	<url>https://github.com/akeo-satish/java-sdk</url>
+	<organization>
+		<url>https://github.com/akeo-satish</url>
+		<name>Wakandi</name>
+	</organization>
+	<inceptionYear>2018</inceptionYear>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Satish Somani</name>
+			<email>satish@akeo.no</email>
+			<organization>Wakandi</organization>
+			<organizationUrl>https://github.com/akeo-satish</organizationUrl>
+			<timezone>UTC+05:30</timezone>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
-		<url>https://github.com/akeo-satish/ledgefarm-java-sdk</url>
-		<tag>HEAD</tag>
+		<url>https://github.com/akeo-satish/java-sdk</url>
+		<tag>com.ledgefarm.core-1.0.1909111027</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
@@ -35,24 +42,48 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-
-
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.archetype</groupId>
-				<artifactId>archetype-packaging</artifactId>
-				<version>3.0.1</version>
-			</extension>
-		</extensions>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
+<dependencies>
+<dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.3</version>
+      <scope>compile</scope>
+    </dependency>
+<dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.5.3</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+	</dependencies>
+  
+  
+  <build>
+  		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>
 				<plugin>
@@ -60,9 +91,11 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5.3</version>
 					<configuration>
-						<localCheckout>false</localCheckout>
+						<localCheckout>true</localCheckout>
 						<pushChanges>false</pushChanges>
 						<mavenExecutorId>forked-path</mavenExecutorId>
+						<releaseProfiles>release</releaseProfiles>
+						<performRelease>true </performRelease>
 						<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
 					</configuration>
 					<dependencies>
@@ -126,8 +159,6 @@
 						<autoReleaseAfterClose>true</autoReleaseAfterClose>
 					</configuration>
 				</plugin>
-
-
 				<plugin>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>1.4.0</version>
@@ -135,35 +166,34 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<profiles>
-<!-- GPG Signature on release -->
-<profile>
-<id>release-sign-artifacts</id>
-<activation>
-<property>
-<name>performRelease</name>
-<value>true</value>
-</property>
-</activation>
-<build>
-<plugins>
-<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-gpg-plugin</artifactId>
-<version>1.6</version>
-<executions>
-<execution>
-<id>sign-artifacts</id>
-<phase>verify</phase>
-<goals>
-<goal>sign</goal>
-</goals>
-</execution>
-</executions>
-</plugin>
-</plugins>
-</build>
-</profile>
-</profiles>
-
+<profiles>
+	<!-- GPG Signature on release -->
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
