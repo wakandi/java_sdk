@@ -53,7 +53,7 @@ var walletResponse = walletService.create(walletName);
         WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
         var walletResponse = walletService.get(walletName);
 ```
--   GetAll: This function is used to get the list of all the wallets that are registered with the operator. In this limit (pagesize) and offset (starting index position) need to be passed to get the page wise records. Admin access token need to be used here for getting list of wallets. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+-   GetAll: This function is used to get the list of all the wallets that are registered with the operator. In this limit (pagesize) and offset (starting index position) need to be passed to get the page wise records. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any number and minimum is 1. Admin access token need to be used here for getting list of wallets. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
 ```
         int limit =10;
         int offset = 1;
@@ -119,7 +119,7 @@ var TransactionResponse = assetService.request(fromWalletName, asset, amount);
 ### Transaction Service
 Transaction service is used to get the information of a specific transaction or list of transactions.
 #### Methods:
--   GetAll: This function is used to get the list of all transactions of the operator . In this limit (pagesize) and offset (starting index position) need to be passed  to get the page wise records. Admin access token need to be used here for getting list of transactions. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+-   GetAll: This function is used to get the list of all transactions of the operator . In this limit (pagesize) and offset (starting index position) need to be passed  to get the page wise records. Admin access token need to be used here for getting list of transactions. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any number and minimum is 1. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
 ```
         int limit =10;
         int offset = 1;

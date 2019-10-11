@@ -44,6 +44,26 @@ public class Token {
 	public final void setTotalSupply(Double value) {
 		TotalSupply = value;
 	}
-
 	
+	@SerializedName("amount")
+	private Double Amount;
+	
+	public final Double getAmount() {
+		return Amount;
+	}
+	
+	public final void setAmount(Double amount) {
+		Amount = amount;
+	}
+	
+	@SerializedName("operatorName")
+	private String OperatorName;
+
+	public String getOperatorName() {
+		return OperatorName;
+	}
+
+	public void setOperatorName(String operatorName) {
+		OperatorName = operatorName;
+	}
 }

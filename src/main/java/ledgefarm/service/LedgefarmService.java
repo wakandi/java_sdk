@@ -3,6 +3,7 @@ package ledgefarm.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -23,6 +24,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -32,7 +34,6 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -142,22 +143,31 @@ public class LedgefarmService {
 		return jsonObject;
 	}
 
-	public JsonArray sendFileHttpGet(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+	public InputStream sendFileHttpGet(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		CloseableHttpResponse execute = null;
-		JsonArray jsonObject = null;
+		InputStream reader = null;
 		CloseableHttpClient httpClient =  getHttpClient();
 		try {
 			HttpGet httpGet = new HttpGet(this._apiUrl + requestUrl);
 			httpGet.setHeader("apiKey", this._apiKey);
 			httpGet.setHeader("accessKey", this._accessKey);
+			httpGet.setHeader("content-type", "application/octet-stream");
 			execute = httpClient.execute(httpGet);
-			String responseStr = EntityUtils.toString(execute.getEntity());
-			return new JsonParser().parse(responseStr).getAsJsonArray();
+			
+			final HttpEntity entity = execute.getEntity();
+			if (entity != null) {
+				BufferedHttpEntity buf = new BufferedHttpEntity(entity);
+//				reader = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+				reader = buf.getContent();
+				return reader;
+			} else {
+				return reader;
+			}
 		} catch (IOException e) {
 		} finally {
 			httpClient.close();
 		}
-		return jsonObject;
+		return reader;
 	}
 	
 	

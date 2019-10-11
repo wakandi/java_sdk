@@ -41,4 +41,14 @@ public class OperatorService  extends LedgefarmService {
 		JsonObject object = jsonObject.getAsJsonObject("error");
 		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
 	}
+	
+	public List<Token> getTokenOwned() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+		JsonObject responseObject = super.sendHttpGet(null, "global/token/owned");
+		return this.mapToTokenObject(responseObject);
+	}
+	
+	public List<Token> getTokenIssued() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+		JsonObject responseObject = super.sendHttpGet(null, "global/token/Issued");
+		return this.mapToTokenObject(responseObject);
+	}
 }

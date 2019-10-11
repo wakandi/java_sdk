@@ -2,6 +2,7 @@ package ledgefarm.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -10,11 +11,8 @@ import java.security.cert.CertificateException;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,8 +33,9 @@ public class BatchService extends LedgefarmService {
 		return this.mapToTransactionObject(responseObject);
 	}
 	
-	public JsonArray create() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
-		return  super.sendFileHttpGet(null, "batch");
+	public InputStream create() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
+		InputStream dataStream = super.sendFileHttpGet(null, "batch");
+		return dataStream; 
 	}
 	
 	public Transaction settle(String filePath) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
