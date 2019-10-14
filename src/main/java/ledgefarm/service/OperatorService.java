@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import ledgefarm.exceptions.LedgefarmException;
+import ledgefarm.models.GlobalToken;
 import ledgefarm.models.Token;
 import ledgefarm.models.Wallet;
 
@@ -22,7 +23,7 @@ public class OperatorService  extends LedgefarmService {
 		super(accessKey);
 	}
 	
-	public List<Token> get(String token) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<Token> get() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/wallet");
 		return this.mapToTokenObject(responseObject);
 	}
@@ -33,22 +34,37 @@ public class OperatorService  extends LedgefarmService {
 			final ArrayList<Token> tokens = new ArrayList<>();
 			JsonArray jarray = jsonObject.getAsJsonArray("data");
 			for(JsonElement obj : jarray) {
-			      Token token = gson.fromJson(obj, Token.class);      
-			      tokens.add(token);
-			    }
-			return tokens;
+				Token token = gson.fromJson(obj, Token.class);      
+				tokens.add(token);
 			}
+			return tokens;
+		}
 		JsonObject object = jsonObject.getAsJsonObject("error");
 		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
 	}
 	
-	public List<Token> getTokenOwned() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<GlobalToken> getTokenOwned() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/token/owned");
-		return this.mapToTokenObject(responseObject);
+		return this.mapToGlobalTokenObject(responseObject);
 	}
 	
-	public List<Token> getTokenIssued() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<GlobalToken> getTokenIssued() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/token/Issued");
-		return this.mapToTokenObject(responseObject);
+		return this.mapToGlobalTokenObject(responseObject);
+	}
+	
+	private List<GlobalToken> mapToGlobalTokenObject(JsonObject jsonObject) throws LedgefarmException {
+		boolean success = jsonObject.get("success").getAsBoolean();
+		if (success) {
+			final ArrayList<GlobalToken> globalTokens = new ArrayList<>();
+			JsonArray jarray = jsonObject.getAsJsonArray("data");
+			for(JsonElement obj : jarray) {
+				GlobalToken globalToken = gson.fromJson(obj, GlobalToken.class);      
+				globalTokens.add(globalToken);
+			}
+			return globalTokens;
+		}
+		JsonObject object = jsonObject.getAsJsonObject("error");
+		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
 	}
 }

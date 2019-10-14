@@ -1,7 +1,7 @@
 ## Basic Information
 Java maven package can be used in operator application to communicate with Wakandi network. This package is available on Maven repository “[https://mvnrepository.com](https://mvnrepository.com)" with the name "com.ledgefarm.core.” This needs to be included as a reference in your application.
 
- ### Installation
+### Installation
 
 -   Maven: In this we need to run following dependency need to be added in pom.xml file.
 ><dependency>
@@ -12,15 +12,17 @@ Java maven package can be used in operator application to communicate with Wakan
 
 *Compatibility of package is with Java version 7 and above versions
 
- ### Configuration
+### Configuration
 
 This package uses some configuration from the application configuration file “config.properties” This file should be available in the user directory of your application.
 
 In the “config.properties” file, a section needs to be added with the following settings:  
+
 ```
-     apiurl = http://host:port/api/v1/
+    apiurl = http://host:port/api/v1/
     apikey = xxxxxxxxxxx
 ```
+
 The settings are used to make the application interact with Ledgefarm core.
 
 -   LedgefarmApiUrl: It is the hosted URL of the Ledgefarm Core API. This URL should end with a version of the application i.e.  http://host:port/api/[version]/. As of now, the current version is v1.
@@ -34,95 +36,168 @@ The complete section comprising the above information needs to be added in the f
 Services that are available in this package:
 
 -   Wallet Service
+-   Token Service
 -   Transaction Service
--   Asset Service
+-   Operator Service
 
 ## Usage
 ### Wallet Service
 Wallet service is used to perform all operations related to the wallet like creating wallet, blocking and unblocking a wallet, obtain wallet data etc.
 #### Methods:
 -   Create : This function is used to create a user wallet. You need to pass a username of the wallet (Walletname) that needs to be created. In response, the packageit will return the wallet address and access token for that wallet. This access token will be used for further operations using this wallet.
+
 ```
-String walletName = “abc@wallxxxxx”;
-WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-var walletResponse = walletService.create(walletName);
+		String walletName = “abc@wallxxxxx”;
+		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var walletResponse = walletService.create(walletName);
 ```
+
 -   Get: This function is used to obtain the information of a particular wallet by using there walletname. Admin access token need to be used here for getting the wallet of a user.
+
 ```
         String walletName = “abc@wallxxxxx”;
         WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
         var walletResponse = walletService.get(walletName);
 ```
--   GetAll: This function is used to get the list of all the wallets that are registered with the operator. In this limit (pagesize) and offset (starting index position) need to be passed to get the page wise records. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any number and minimum is 1. Admin access token need to be used here for getting list of wallets. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
+-   GetAll: This function is used to get the list of all the wallets that are registered with the operator. In this limit (pagesize) and offset (starting index position) need to be passed to get the page wise records. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any positive number and minimum is 1. Admin access token need to be used here for getting list of wallets. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
 ```
-        int limit =10;
-        int offset = 1;
-        WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-        var walletListResponse = walletService.getAll(limit, offset);
+		int limit =10;
+		int offset = 1;
+		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var walletListResponse = walletService.getAll(limit, offset);
 ```
 
 -   Block: This function is used to block the user wallet. User wallet address need to pass for blocking a wallet. Admin access token need to be used here for blocking user wallet.
+
 ```
-          String walletName = “abc@wallxxxxx”;
-          WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-          var blockResponse = walletService.block(walletName);
+		String walletName = “abc@wallxxxxx”;
+		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var blockResponse = walletService.block(walletName);
 ```
+
 -   Unblock: This function is used to unblock the user wallet. User wallet address need to pass for unblocking a wallet. Admin access token need to be used here for unblocking user wallet.
+
 ```
-   String walletName = “abc@wallxxxxx”;
-   WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-   var unblockResponse = walletService.unblock(walletName)
+		String walletName = “abc@wallxxxxx”;
+		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var unblockResponse = walletService.unblock(walletName)
 ```
-### Asset Service
+
+### Token Service
 Asset service is used to perform all the operations related to assets. Which includes issue, transfer, withdraw and request asset etc.
 #### Methods:
+-   Get token: This function is used to get the token which is flowing in the current network. It will provide the total supply(the total token circulation in the particular network.
+
+```
+		string token = "USD"
+		TokenService tokenService = new TokenService("xxxxxxxxxxxxxxxxxxxxxx");
+		var tokenResponse = await tokenService.Get(token);
+```
+
 -   Issue: This function is used to Issue the asset to the user. In this function wallet address of the user to whom asset need to be issued, asset name, amount and list of all applicable fees need to be passed for the issuing token to the user. Admin access token need to be used here for issuing asset to a user.
 
 ```
-String walletName = “abc@wallxxxxx”;
-String asset= “USD”;
-Double amount=100;
-List<Fee> fee = new ArrayList<Fee>();
-AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
-var transactionResponse = assetService.issue(walletName, asset, amount, fee);
+		String walletName = “abc@wallxxxxx”;
+		String asset= “USD”;
+		Double amount=100;
+		List<Fee> fee = new ArrayList<Fee>();
+		AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var transactionResponse = assetService.issue(walletName, asset, amount, fee);
 ```
 -   Transfer : This function is used to transfer the asset from one user to another user. In this function wallet address of the user to whom asset need to be transferred, asset name, amount and list of all applicable fees need to be passed for the transferring asset to the user. Here user’s access token (sender) need to be passed to transfer asset from wallet to wallet.
+
 ```
-String walletName = “abc@wallxxxxx”;
-String asset= “USD”;
-Double amount=100;
-List<Fee> fee = new ArrayList<Fee>();
-AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
-var TransactionResponse = assetService.transfer(walletName, asset, amount, fee);
+		String walletName = “abc@wallxxxxx”;
+		String asset= “USD”;
+		Double amount=100;
+		List<Fee> fee = new ArrayList<Fee>();
+		AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var TransactionResponse = assetService.transfer(walletName, asset, amount, fee);
 ```
+
 -   Withdraw: This function is used to withdraw assets from the user. In this function wallet address of the user from asset need to be withdrawn, asset name, amount and list of all applicable fees need to be passed for the withdrawing assets from the user. Admin access token need to be used to withdrawing assets from user's wallet.
 
 ```
-String walletName = “abc@wallxxxxx”;
-String asset= “USD”;
-Double amount=100;
-List<Fee> fee = new ArrayList<Fee>();
-AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
-var TransactionResponse = assetService.withdraw(walletName, asset, amount, fee);
+		String walletName = “abc@wallxxxxx”;
+		String asset= “USD”;
+		Double amount=100;
+		List<Fee> fee = new ArrayList<Fee>();
+		AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var TransactionResponse = assetService.withdraw(walletName, asset, amount, fee);
 
 ```
 
 -   Request: This function is used to request assets from other user. In this function wallet address of the user from asset need to be requested, asset name and amount need to be passed for the requesting assets. User’s access token (request sender) need to be used here for sending requests to other users.
 
 ```
-String fromWalletName= “abc@wallxxxxx”;
-String asset= “USD”;
-Double walletName =100;
-AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
-var TransactionResponse = assetService.request(fromWalletName, asset, amount);
+		String fromWalletName= “abc@wallxxxxx”;
+		String asset= “USD”;
+		Double walletName =100;
+		AssetService assetService = new AssetService(“xxxxxxxxxxxxxxxxxxxxxx”);
+		var TransactionResponse = assetService.request(fromWalletName, asset, amount);
 ```
+
 ### Transaction Service
 Transaction service is used to get the information of a specific transaction or list of transactions.
 #### Methods:
--   GetAll: This function is used to get the list of all transactions of the operator . In this limit (pagesize) and offset (starting index position) need to be passed  to get the page wise records. Admin access token need to be used here for getting list of transactions. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any number and minimum is 1. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+-   GetAll: This function is used to get the list of all transactions of the operator . In this limit (pagesize) and offset (starting index position) need to be passed  to get the page wise records. Admin access token need to be used here for getting list of transactions. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any positive number and minimum is 1. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
 ```
-        int limit =10;
+        int limit = 10;
         int offset = 1;
         TransactionService transactionService = new TransactionService(“xxxxxxxxxxxxxxxxxxxxxx”);
         var walletListResponse = transactionService.getAll(limit, offset);
 ```
+
+-   Get: This function is used to get the list of transaction by TransactionId. Admin access key need to be used here for getting list of transactions. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
+```
+        string transactionId = 12sddadxxxxxxxx;
+        TransactionService transactionService = new TransactionService("xxxxxxxxxxxxxxxxxxxxxx");
+        var walletListResponse = await transactionService.Get(transactionId);
+```
+
+-   GetAllByToken: This function is used to get the list of all transactions of the operator by token . In this limit (pagesize) and offset (starting index position) need to be passed to get the page wise records. Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any positive number and minimum is 1. Admin access key need to be used here for getting list of transactions. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
+```
+        int limit =10;
+        int offset = 1;
+        string token = "USD";
+        TransactionService transactionService = new TransactionService("xxxxxxxxxxxxxxxxxxxxxx");
+        var walletListResponse = await transactionService.GetAllByToken(token,limit, offset);
+```
+
+-   GetAllByWallet: This function is used to get the list of all transactions of the operatorby wallet . In this limit (pagesize) and offset (starting index position) need to be passed  to get the page wise records.  Maximum value of limit is 1000 and minimum value is 1 and maximum value of offset can be any positive number and minimum is 1. Admin access key need to be used here for getting list of transactions. For example if we have 30 records and page size is 10 then 3 calls need to make with 1,11,21 as offset and 10 as page size in each request.
+
+```
+        int limit =10;
+        int offset = 1;
+        string wallet = "abc@wallxxxx";
+        TransactionService transactionService = new TransactionService("xxxxxxxxxxxxxxxxxxxxxx");
+        var walletListResponse = await transactionService.GetAllByWallet(wallet, limit, offset);
+```
+
+### Operator Service
+Operator service is used to get the information about token issued, token owned and operator balance over network.
+#### Methods:
+-   Get Token Balance On Global Network: This function is used to get information about total balance over the global network.
+
+```
+        OperatorService operatorService = new OperatorService("xxxxxxxxxxxxxxxxxxxxxx");
+        var operatorResponse = await operatorService.Get();
+```
+
+-   Get Issued Token: This function is used to check how many tokens operator issued to other operators on global network.
+
+```
+        OperatorService operatorService = new OperatorService("xxxxxxxxxxxxxxxxxxxxxx");
+        var tokenIssuedListResponse = operatorService.getTokenIssued();
+```
+
+-   Get Owned Token: This function is used to check how many tokens operator issued to other operators on global network.
+
+```
+        OperatorService operatorService = new OperatorService("xxxxxxxxxxxxxxxxxxxxxx");
+        var tokenIssuedListResponse = operatorService.getTokenOwned();        

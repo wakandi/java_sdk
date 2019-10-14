@@ -54,6 +54,8 @@ public class WalletServiceTest {
 		WalletService walletService = new WalletService(accessKey);
     	Wallet response  = walletService.create("test");
     	System.out.println("wallet : " + response.getAccessKey());
+    	
+    	
 	} catch(LedgefarmException ex) {
 		System.out.println(ex.getMessage());
 		System.out.println(ex.getCode());
