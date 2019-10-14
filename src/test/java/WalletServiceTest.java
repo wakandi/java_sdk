@@ -22,7 +22,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import ledgefarm.exceptions.LedgefarmException;
-import ledgefarm.models.Token;
 import ledgefarm.service.TokenService;
 
 import ledgefarm.exceptions.LedgefarmException;
@@ -51,42 +50,10 @@ public class WalletServiceTest {
     public void CreateWallet() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException
     {
 	try {
-		String filePath = "/home/vicky/Desktop/response.txt";
-		System.out.println("check-1");
-//		TokenService tokenService = new TokenService("7820cb1194892565d20b7e00e2eee2223fb4cc48a14114fa60a907e713946af3");    // new
-//    	Wallet response  = walletService.create("vicky420");
-//    	OperatorService operatorService = new OperatorService("7820cb1194892565d20b7e00e2eee2223fb4cc48a14114fa60a907e713946af3");
-		BatchService batchService = new BatchService("7820cb1194892565d20b7e00e2eee2223fb4cc48a14114fa60a907e713946af3");
-		
-//    	List<Token> token = tokenService.get("USD");
-//    	String responseStr = EntityUtils.toString();
-//		List<Token> ownedToken = operatorService.getTokenOwned();
-//		List<Token> issuedToken = operatorService.getTokenIssued();
-		List<Batch> batches = new ArrayList<Batch>();
-		Batch batch = new Batch();
-		batch.setReferenceId("test");
-		batch.setBatchId("2ca487165d08fb72abf0bd9230b5f1f695440996d41cefb92fe23bae613a6b39$0");
-		batches.add(batch);
-		Transaction transaction = batchService.update(batches);
-		System.out.println("batch update : " + transaction.getMessage());
-//		InputStream streamData = batchService.create();
-//		System.out.println("Operator Name : " + ownedToken.get(0).getOperatorName() + " Token : " + ownedToken.get(0).getName() + " Amount : " + ownedToken.get(0).getAmount());
-//		System.out.println("Operator Name : " + issuedToken.get(0).getOperatorName() + " Token : " + issuedToken.get(0).getName() + " Amount : " + issuedToken.get(0).getAmount());
-
-		
-//        try (FileOutputStream outputStream = new FileOutputStream(new File(filePath))) {
-//
-//            int read;
-//            byte[] bytes = new byte[streamData.available()];
-//
-//            while ((read = streamData.read(bytes)) != -1) {
-//                outputStream.write(bytes, 0, read);
-//            }
-//
-//			// commons-io
-//            //IOUtils.copy(inputStream, outputStream);
-//
-//        }
+		accessKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+		WalletService walletService = new WalletService(accessKey);
+    	Wallet response  = walletService.create("test");
+    	System.out.println("wallet : " + response.getAccessKey());
 	} catch(LedgefarmException ex) {
 		System.out.println(ex.getMessage());
 		System.out.println(ex.getCode());

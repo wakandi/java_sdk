@@ -8,17 +8,20 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import ledgefarm.exceptions.LedgefarmException;
 import ledgefarm.models.Batch;
+import ledgefarm.models.Token;
 import ledgefarm.models.Transaction;
 
 public class BatchService extends LedgefarmService {
@@ -28,8 +31,8 @@ public class BatchService extends LedgefarmService {
 	}
 	public Transaction update(List<Batch> batches) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(batches));
-		JsonObject jsonObject = jsonTree.getAsJsonObject();
-		JsonObject responseObject = super.sendHttpPut(jsonObject, "batch");
+		JsonArray jsonArray = jsonTree.getAsJsonArray();
+		JsonObject responseObject = super.sendHttpPutArray(jsonArray, "batch");
 		return this.mapToTransactionObject(responseObject);
 	}
 	

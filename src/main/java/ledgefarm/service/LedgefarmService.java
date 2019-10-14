@@ -34,6 +34,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -71,7 +72,7 @@ public class LedgefarmService {
 			httpPost.setHeader("accessKey", this._accessKey);
 			execute = httpclient.execute(httpPost);
 			jsonObject = this.deseralize(execute);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println(e);
 		} finally {
 			httpclient.close();
@@ -125,6 +126,32 @@ public class LedgefarmService {
 		}
 		return jsonObject;
 	}
+	
+	public JsonObject sendHttpPutArray(JsonArray array, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+		CloseableHttpResponse execute = null;
+		JsonObject jsonObject = null;
+		String requestJson = "{}";
+		if(array!=null)
+		{
+			requestJson = new Gson().toJson(array);
+		}
+		CloseableHttpClient httpclient =  getHttpClient();
+		try {
+			HttpPut httpPut = new HttpPut(this._apiUrl + requestUrl);
+			StringEntity entity = new StringEntity(requestJson, "UTF-8");
+			entity.setContentType("application/json");
+			httpPut.setEntity(entity);
+			httpPut.setHeader("apiKey", this._apiKey);
+			httpPut.setHeader("accessKey", this._accessKey);
+			execute = httpclient.execute(httpPut);
+			jsonObject = this.deseralize(execute);
+		} catch (Exception e) {
+			System.out.println("Error : " + e);
+		} finally {
+			httpclient.close();
+		}
+		return jsonObject;
+	}
 
 	public JsonObject sendHttpGet(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		CloseableHttpResponse execute = null;
@@ -157,7 +184,6 @@ public class LedgefarmService {
 			final HttpEntity entity = execute.getEntity();
 			if (entity != null) {
 				BufferedHttpEntity buf = new BufferedHttpEntity(entity);
-//				reader = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 				reader = buf.getContent();
 				return reader;
 			} else {
