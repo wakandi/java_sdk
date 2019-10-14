@@ -43,12 +43,12 @@ public class OperatorService  extends LedgefarmService {
 		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
 	}
 	
-	public List<GlobalToken> getTokenOwned() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<GlobalToken> ownedToken() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/token/owned");
 		return this.mapToGlobalTokenObject(responseObject);
 	}
 	
-	public List<GlobalToken> getTokenIssued() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<GlobalToken> issuedToken() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/token/Issued");
 		return this.mapToGlobalTokenObject(responseObject);
 	}
