@@ -49,17 +49,17 @@ public class WalletServiceTest {
 @Test
     public void CreateWallet() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException
     {
-	try {
-		accessKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-		WalletService walletService = new WalletService(accessKey);
-    	Wallet response  = walletService.create("test");
-    	System.out.println("wallet : " + response.getAccessKey());
+	// try {
+	// 	accessKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	// 	WalletService walletService = new WalletService(accessKey);
+    // 	Wallet response  = walletService.create("test");
+    // 	System.out.println("wallet : " + response.getAccessKey());
     	
     	
-	} catch(LedgefarmException ex) {
-		System.out.println(ex.getMessage());
-		System.out.println(ex.getCode());
-	}
+	// } catch(LedgefarmException ex) {
+	// 	System.out.println(ex.getMessage());
+	// 	System.out.println(ex.getCode());
+	// }
     	
 		//System.out.println(token.get(0).getBalance());
     }
