@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ledgefarm.core</groupId>
   <artifactId>com.ledgefarm.core</artifactId>
-  <version>1.0.100-SNAPSHOT</version>
+  <version>1.0.100</version>
   <name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
 	<url>https://github.com/wakandi/java-sdk</url>
@@ -30,7 +30,7 @@
 		<connection>scm:git:git://github.com/wakandi/java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:wakandi/java-sdk.git</developerConnection>
 		<url>https://github.com/wakandi/java_sdk</url>
-		<tag>Head</tag>
+		<tag>com.ledgefarm.core-1.0.100</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
