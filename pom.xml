@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ledgefarm.core</groupId>
   <artifactId>com.ledgefarm.core</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.100-SNAPSHOT</version>
   <name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
 	<url>https://github.com/wakandi/java-sdk</url>
@@ -19,8 +19,8 @@
 	</licenses>
 	<developers>
 		<developer>
-			<name>Satish Somani</name>
-			<email>satish@akeo.no</email>
+			<name>Vicky Pramanik</name>
+			<email>vicky@akeo.no</email>
 			<organization>Wakandi</organization>
 			<organizationUrl>https://github.com/wakandi</organizationUrl>
 			<timezone>UTC+05:30</timezone>

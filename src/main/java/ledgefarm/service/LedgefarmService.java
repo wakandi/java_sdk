@@ -197,19 +197,6 @@ public class LedgefarmService {
 		return reader;
 	}
 	
-	
-//	private JsonObject deseralize(final CloseableHttpResponse httpResponse) throws IOException {
-//		JsonObject jObject = null;
-//		try {
-//			String responseStr = EntityUtils.toString(httpResponse.getEntity());
-//			if (responseStr != null && !responseStr.isEmpty()) {
-//				jObject = new JsonParser().parse(responseStr).getAsJsonObject();
-//			}
-//		} catch (IOException e) {
-//		}
-//
-//		return jObject;
-//	}
 	private JsonObject deseralize(final CloseableHttpResponse httpResponse) throws IOException, LedgefarmException {
         JsonObject jObject = null;
         try {
@@ -219,15 +206,12 @@ public class LedgefarmService {
                     int statusCode = httpResponse.getStatusLine().getStatusCode();
                     jObject = new JsonParser().parse(responseStr).getAsJsonObject();
                     if (statusCode == 200 || statusCode == 207) {
-                    
 	                    boolean success = jObject.get("success").getAsBoolean();
 	                    if (success) {
-	                        return jObject.getAsJsonObject("data");
+	                        return jObject;
 	                    }
                     } else {
-                        JsonObject object = jObject.getAsJsonObject("results");
-                        
-                        throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+                    	deseralizeError(jObject);
                     }
                 }
         } catch (IOException e) {
@@ -235,17 +219,20 @@ public class LedgefarmService {
         return jObject;
     }
 	
-//	private JsonObject deseralizeError(JsonObject jsonObject) throws IOException, LedgefarmException {
-//		JsonObject jObject = null;
-//		try {
-//			if (jsonObject != null) {
-//				
-//			}
-//		} catch (IOException e) {
-//		}
-//
-//		return jObject;
-//	}
+	private void deseralizeError(JsonObject jsonObject) throws IOException, LedgefarmException {
+		JsonObject jObject = null;
+		if (jsonObject != null &&  jsonObject.get("error") != null && jsonObject.get("error").isJsonObject()) {
+			jObject = jsonObject.getAsJsonObject("error");
+			throw new LedgefarmException(jObject.get("message").getAsString(), jObject.get("error").getAsString());
+		} else if (jsonObject != null && jsonObject.get("results") != null && jsonObject.get("results").isJsonObject()) {
+			jObject = jsonObject.getAsJsonObject("results");
+			JsonArray jsonArray = jObject.get("errors").getAsJsonArray();
+			jObject = jsonArray.get(0).getAsJsonObject();
+			throw new LedgefarmException(jObject.get("message").getAsString(), jObject.get("code").getAsString());
+		} else {
+			throw new LedgefarmException("Service is unavailable", "SERVICE_UNAVAILABLE");
+		}
+	}
 
 	private void getConfiguration() {
 		try {

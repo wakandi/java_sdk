@@ -57,8 +57,7 @@ public class TransactionService extends LedgefarmService {
 			    }
 			return transactions;
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 
 }

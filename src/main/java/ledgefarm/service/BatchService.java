@@ -71,8 +71,7 @@ public class BatchService extends LedgefarmService {
 			JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
 			return gson.fromJson(obj, Transaction.class);
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 	
 }

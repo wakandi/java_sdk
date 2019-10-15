@@ -24,7 +24,7 @@ public class WalletService extends LedgefarmService {
 		dataObj.addProperty("walletName", walletName);
 		JsonObject responseObject = super.sendHttpPost(dataObj, "wallet");
 		return this.validateResponse(responseObject);
-		
+
 	}
 
 	public List<Wallet> get(String wallet) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
@@ -52,19 +52,19 @@ public class WalletService extends LedgefarmService {
 		JsonObject responseObject = super.sendHttpPut(dataObj, "wallet");
 		return  this.validateResponse(responseObject);
 	}
-	
-	
 
 
 	private Wallet validateResponse(JsonObject jsonObject) throws LedgefarmException {
-		boolean success = jsonObject.get("success").getAsBoolean();
-		if (success) {
-			JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
-			return gson.fromJson(obj, Wallet.class);
-		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		if (jsonObject != null) {
+			boolean success = jsonObject.get("success").getAsBoolean();
+			if (success) {
+				JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
+				return gson.fromJson(obj, Wallet.class);
+			}	
+		} 
+		throw new LedgefarmException("Service is unavailable", "SERVICE_UNAVAILABLE");
 	}
+
 
 	private List<Wallet> mapToListObject(JsonObject jsonObject) throws LedgefarmException {
 		boolean success = jsonObject.get("success").getAsBoolean();
@@ -72,12 +72,11 @@ public class WalletService extends LedgefarmService {
 			final ArrayList<Wallet> wallets = new ArrayList<>();
 			JsonArray jarray = jsonObject.getAsJsonArray("data");
 			for(JsonElement obj : jarray) {
-			      Wallet wallet = gson.fromJson(obj, Wallet.class);      
-			      wallets.add(wallet);
-			    }
-			return wallets;
+				Wallet wallet = gson.fromJson(obj, Wallet.class);      
+				wallets.add(wallet);
 			}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+			return wallets;
+		}
+		return null;
 	}
 }

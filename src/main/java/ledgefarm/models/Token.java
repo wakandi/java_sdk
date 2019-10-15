@@ -44,4 +44,5 @@ public class Token {
 	public final void setTotalSupply(Double value) {
 		TotalSupply = value;
 	}
+	
 }

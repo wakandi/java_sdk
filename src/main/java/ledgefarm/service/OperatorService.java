@@ -39,8 +39,7 @@ public class OperatorService  extends LedgefarmService {
 			}
 			return tokens;
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 	
 	public List<GlobalToken> ownedToken() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
@@ -64,7 +63,6 @@ public class OperatorService  extends LedgefarmService {
 			}
 			return globalTokens;
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 }

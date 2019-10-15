@@ -5,11 +5,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,18 +51,5 @@ public class WalletServiceTest {
 @Test
     public void CreateWallet() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException
     {
-	// try {
-	// 	accessKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-	// 	WalletService walletService = new WalletService(accessKey);
-    // 	Wallet response  = walletService.create("test");
-    // 	System.out.println("wallet : " + response.getAccessKey());
-    	
-    	
-	// } catch(LedgefarmException ex) {
-	// 	System.out.println(ex.getMessage());
-	// 	System.out.println(ex.getCode());
-	// }
-    	
-		//System.out.println(token.get(0).getBalance());
     }
 }
