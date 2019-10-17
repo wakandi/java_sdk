@@ -24,4 +24,15 @@ public class GlobalToken {
 	public void setOperatorName(String operatorName) {
 		OperatorName = operatorName;
 	}
+	
+	@SerializedName("token")
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

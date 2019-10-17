@@ -29,6 +29,11 @@ public class BatchService extends LedgefarmService {
 	public BatchService(String accessKey) {
 		super(accessKey);
 	}
+	
+	public BatchService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
+		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
+	}
+	
 	public Transaction update(List<Batch> batches) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(batches));
 		JsonArray jsonArray = jsonTree.getAsJsonArray();

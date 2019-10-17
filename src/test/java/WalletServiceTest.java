@@ -48,7 +48,7 @@ public class WalletServiceTest {
 	public BatchService batchService;
 	//final static Logger LOG = LoggerFactory.getLogger(GetWalletPageSteps.class);
 
-@Test
+	@Test
     public void CreateWallet() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException
     {
     }

@@ -21,7 +21,11 @@ public class TransactionService extends LedgefarmService {
 	public TransactionService(String token) {
 		super(token);
 	}
-
+	
+	public TransactionService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
+		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
+	}
+	
 	public List<Transaction> getAll(int limit, int offset) throws IOException,LedgefarmException, ParseException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "transaction?limit=" + limit + "&offset=" + offset);
 		return this.mapToListObject(responseObject);

@@ -21,6 +21,10 @@ import ledgefarm.models.Wallet;
 public class OperatorService  extends LedgefarmService {
 	public OperatorService(String accessKey) {
 		super(accessKey);
+	}	
+	
+	public OperatorService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
+		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
 	}
 	
 	public List<Token> get() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
