@@ -63,6 +63,20 @@ public class TokenService extends LedgefarmService {
 		JsonObject responseObject = super.sendHttpPost(dataObj, "token/transfer");
 		return this.mapToTransactionObject(responseObject);
 	}
+	
+	public final Transaction batchTransfer(String token, double amount, String memo, List<Fee> fee, List<BatchTransferRequest> batch)
+			throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
+		JsonElement jsonTreeFee = new JsonParser().parse(super.gson.toJson(fee));
+		JsonElement jsonTreeBatch = new JsonParser().parse(super.gson.toJson(batch));
+		JsonObject dataObj = new JsonObject();
+		dataObj.addProperty("token", token);
+		dataObj.addProperty("amount", new Double(amount));
+		dataObj.addProperty("memo", memo);
+		dataObj.add("fee", jsonTreeFee);
+		dataObj.add("batchTransferRequest", jsonTreeBatch);
+		JsonObject responseObject = super.sendHttpPost(dataObj, "token/transfer/batch");
+		return this.mapToTransactionObject(responseObject);
+	}
 
 	public final Transaction withdraw(String fromWallet, String token, double amount, List<Fee> fee)
 			throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {

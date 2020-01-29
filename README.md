@@ -47,9 +47,15 @@ Wallet service is used to perform all operations related to the wallet like crea
 -   Create : This function is used to create a user wallet. You need to pass a username of the wallet (Walletname) that needs to be created. In response, the packageit will return the wallet address and access key for that wallet. This access key will be used for further operations using this wallet.
 
 ```
-		String walletName = “abc@wallxxxxx”;
 		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-		Wallet walletResponse = walletService.create(walletName);
+		WalletRequest walletRequest = new WalletRequest();
+		walletRequest.setWallet("xxxxxxx");
+		walletRequest.setName("xxxxx xxxxx");
+		walletRequest.setEmail("abc@wallxxxxx");
+		walletRequest.setCountryCode("+91");
+		walletRequest.setPhone("xxxxxxxxxx");
+		walletRequest.setIsPublic(true);
+		Wallet walletResponse = walletService.create(walletRequest);
 ```
 
 -   Get: This function is used to obtain the information of a particular wallet by using there walletname. Admin access key need to be used here for getting the wallet of a user.
@@ -69,20 +75,33 @@ Wallet service is used to perform all operations related to the wallet like crea
 		List<Wallet> walletListResponse = walletService.getAll(limit, offset);
 ```
 
--   Block: This function is used to block the user wallet. User wallet address need to pass for blocking a wallet. Admin access key need to be used here for blocking user wallet.
+-   Search: This function is used to search the information of a particular wallet by using there walletname or email or phone number and countryCode. Here first parameter is search field which can be walletname or email or phone number and second parameter is countryCode, if search by phone then countryCode need to be pass and if search using walletname or email then pass second parameter as null. This Admin access key need to be used here for getting the wallet of a user.
 
 ```
-		String walletName = “abc@wallxxxxx”;
+        String walletName = “abc@wallxxxxx”;
+        WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
+        List<Wallet> walletResponse = walletService.search(walletName, null);
+        
+        String email = “abc@test.com”;
+        List<Wallet> walletResponse = walletService.search(email, null);
+        
+        String phone = “98xxxxxxxx”;
+        String countryCode = “+91”;
+        List<Wallet> walletResponse = walletService.search(phone, countryCode);
+```
+
+-   Update: This function is used to update the user wallet details. Block operation can be performed using with user wallet address and blocked as a true. Unblock  operation can be performed using with user wallet address and blocked as a false. Updating wallet as private or public can be performed using user wallet address and isPublic true/false and other fields are optional. Admin access key need to be used here for update user wallet.
+
+```
 		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-		Wallet blockResponse = walletService.block(walletName);
-```
-
--   Unblock: This function is used to unblock the user wallet. User wallet address need to pass for unblocking a wallet. Admin access key need to be used here for unblocking user wallet.
-
-```
-		String walletName = “abc@wallxxxxx”;
-		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
-		Wallet unblockResponse = walletService.unblock(walletName)
+		WalletRequest walletRequest = new WalletRequest();
+		walletRequest.setWallet("xxxxxxx");
+		walletRequest.setName("xxxxx xxxxx");
+		walletRequest.setEmail("abc@wallxxxxx");
+		walletRequest.setCountryCode("+91");
+		walletRequest.setPhone("xxxxxxxxxx");
+		walletRequest.setIsPublic(true);
+		Wallet unblockResponse = walletService.update(walletRequest)
 ```
 
 ### Token Service
@@ -140,6 +159,31 @@ Asset service is used to perform all the operations related to assets. Which inc
 		Double walletName =100;
 		TokenService tokenService = new TokenService(“xxxxxxxxxxxxxxxxxxxxxx”);
 		Transaction TransactionResponse = assetService.request(fromWalletName, asset, amount);
+```
+
+-   batchTransfer: This function is used to send assets to multipal user. In this function wallet address of the user from asset need to be requested, asset name and amount need to be passed for the requesting assets. User’s access key (request sender) need to be used here for sending requests to other users.
+
+```
+			TokenService service =  new TokenService(“xxxxxxxxxxxxxxxxxxxxxx”);
+			List<Fee> fee = new ArrayList<Fee>();
+			Fee _fee = new Fee();
+			_fee.setToWallet("abc@wallxxxxx");
+			_fee.setAmount(1.0);
+			_fee.setMemo("Multi transfer fee memo");
+			fee.add(_fee);
+			
+			List<BatchTransferRequest> batch = new ArrayList<BatchTransferRequest>();
+			BatchTransferRequest _batch = new BatchTransferRequest();
+			_batch.setToWallet("abc@wallxxxxx");
+			_batch.setAmount(5);
+			_batch.setMemo("Account clear");
+			batch.add(_batch);
+			BatchTransferRequest _batch1 = new BatchTransferRequest();
+			_batch1.setToWallet("abc@wallxxxxx");
+			_batch1.setAmount(5);
+			_batch1.setMemo("Account clear");
+			batch.add(_batch);
+			Transaction transaction = service.batchTransfer("USD", 10, "multipal transfer", fee, batch);
 ```
 
 ### Transaction Service

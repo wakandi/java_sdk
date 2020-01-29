@@ -174,6 +174,7 @@ public class LedgefarmService {
 			execute = httpClient.execute(httpGet);
 			jsonObject = this.deseralize(execute);
 		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			httpClient.close();
 		}
@@ -209,21 +210,28 @@ public class LedgefarmService {
 	private JsonObject deseralize(final CloseableHttpResponse httpResponse) throws IOException, LedgefarmException {
         JsonObject jObject = null;
         try {
-            
-                String responseStr = EntityUtils.toString(httpResponse.getEntity());
-                if (responseStr != null && !responseStr.isEmpty()) {
-                    int statusCode = httpResponse.getStatusLine().getStatusCode();
-                    jObject = new JsonParser().parse(responseStr).getAsJsonObject();
-                    if (statusCode == 200 || statusCode == 207) {
-	                    boolean success = jObject.get("success").getAsBoolean();
-	                    if (success) {
-	                        return jObject;
-	                    }
-                    } else {
-                    	deseralizeError(jObject);
-                    }
-                }
+        		if (httpResponse.getEntity() != null) {
+                    String responseStr = EntityUtils.toString(httpResponse.getEntity());
+                    if (responseStr != null && !responseStr.isEmpty()) {
+                        int statusCode = httpResponse.getStatusLine().getStatusCode();
+                        jObject = new JsonParser().parse(responseStr).getAsJsonObject();
+                        if (statusCode == 200 || statusCode == 207) {
+    	                    boolean success = jObject.get("success").getAsBoolean();
+    	                    if (success) {
+    	                        return jObject;
+    	                    }
+                        } else {
+                        	deseralizeError(jObject);
+                        }
+                    }	
+        		} else {
+        			jObject = new JsonObject();
+        			jObject.addProperty("success", true);
+                	jObject.add("data", new JsonArray());
+                	return jObject;
+        		}
         } catch (IOException e) {
+        	e.printStackTrace();
         }
         return jObject;
     }

@@ -1,6 +1,7 @@
 package ledgefarm.service;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -23,9 +24,14 @@ public class WalletService extends LedgefarmService {
 		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
 	}
 	
-	public Wallet create(String walletName) throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
+	public Wallet create(WalletRequest walletRequest) throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
 		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("walletName", walletName);
+		dataObj.addProperty("walletName", walletRequest.getWallet());
+		dataObj.addProperty("name", walletRequest.getName());
+		dataObj.addProperty("email", walletRequest.getEmail());
+		dataObj.addProperty("countryCode", walletRequest.getCountryCode());
+		dataObj.addProperty("phone", walletRequest.getPhone());
+		dataObj.addProperty("isPublic", walletRequest.getIsPublic());
 		JsonObject responseObject = super.sendHttpPost(dataObj, "wallet");
 		return this.validateResponse(responseObject);
 
@@ -40,23 +46,30 @@ public class WalletService extends LedgefarmService {
 		JsonObject responseObject = super.sendHttpGet(null, "wallet?limit=" + limit + "&offset=" + offset);
 		return this.mapToListObject(responseObject);
 	}
-
-	public Wallet block(String wallet) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	
+	public Wallet update(WalletRequest walletRequest) throws IOException, LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("wallet", wallet);
-		dataObj.addProperty("blocked", new Boolean(true));
+		dataObj.addProperty("wallet", walletRequest.getWallet());
+		dataObj.addProperty("name", walletRequest.getName());
+		dataObj.addProperty("email", walletRequest.getEmail());
+		dataObj.addProperty("countryCode", walletRequest.getCountryCode());
+		dataObj.addProperty("phone", walletRequest.getPhone());
+		dataObj.addProperty("isPublic", walletRequest.getIsPublic());
+		dataObj.addProperty("blocked", walletRequest.getBlocked());
 		JsonObject responseObject = super.sendHttpPut(dataObj, "wallet");
 		return  this.validateResponse(responseObject);
 	}
 
-	public Wallet unblock(String wallet) throws IOException, LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
-		JsonObject dataObj = new JsonObject();
-		dataObj.addProperty("wallet", wallet);
-		dataObj.addProperty("blocked", new Boolean(false));
-		JsonObject responseObject = super.sendHttpPut(dataObj, "wallet");
-		return  this.validateResponse(responseObject);
+	public List<Wallet> search(String search, String countryCode) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+		JsonObject responseObject;
+		if (countryCode != null) {
+			responseObject = super.sendHttpGet(null, "wallet/search?search=" + search + "&countryCode=" + URLEncoder.encode(countryCode, "UTF-8"));	
+		} else {
+			responseObject = super.sendHttpGet(null, "wallet/search?search=" + search);
+		}
+		
+		return this.mapToListObject(responseObject);
 	}
-
 
 	private Wallet validateResponse(JsonObject jsonObject) throws LedgefarmException {
 		if (jsonObject != null) {
@@ -76,7 +89,7 @@ public class WalletService extends LedgefarmService {
 			final ArrayList<Wallet> wallets = new ArrayList<>();
 			JsonArray jarray = jsonObject.getAsJsonArray("data");
 			for(JsonElement obj : jarray) {
-				Wallet wallet = gson.fromJson(obj, Wallet.class);      
+				Wallet wallet = gson.fromJson(obj, Wallet.class);
 				wallets.add(wallet);
 			}
 			return wallets;
