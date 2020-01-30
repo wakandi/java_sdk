@@ -2,16 +2,16 @@ package ledgefarm.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import com.google.gson.JsonArray;
@@ -21,6 +21,7 @@ import com.google.gson.JsonParser;
 
 import ledgefarm.exceptions.LedgefarmException;
 import ledgefarm.models.Batch;
+import ledgefarm.models.Token;
 import ledgefarm.models.Transaction;
 
 public class BatchService extends LedgefarmService {
@@ -28,15 +29,21 @@ public class BatchService extends LedgefarmService {
 	public BatchService(String accessKey) {
 		super(accessKey);
 	}
+	
+	public BatchService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
+		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
+	}
+	
 	public Transaction update(List<Batch> batches) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(batches));
-		JsonObject jsonObject = jsonTree.getAsJsonObject();
-		JsonObject responseObject = super.sendHttpPut(jsonObject, "batch");
+		JsonArray jsonArray = jsonTree.getAsJsonArray();
+		JsonObject responseObject = super.sendHttpPutArray(jsonArray, "batch");
 		return this.mapToTransactionObject(responseObject);
 	}
 	
-	public JsonArray create() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
-		return  super.sendFileHttpGet(null, "batch");
+	public InputStream create() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
+		InputStream dataStream = super.sendFileHttpGet(null, "batch");
+		return dataStream; 
 	}
 	
 	public Transaction settle(String filePath) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
@@ -69,8 +76,7 @@ public class BatchService extends LedgefarmService {
 			JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
 			return gson.fromJson(obj, Transaction.class);
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 	
 }
