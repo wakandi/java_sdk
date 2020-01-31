@@ -54,15 +54,6 @@ public class LedgefarmService {
 		this._accessKey = accessKey;
 		this.getConfiguration();
 	}
-	
-	public LedgefarmService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase)
-	{
-		this._accessKey = accessKey;
-		this._apiKey = apiKey;
-		this._apiUrl = apiUrl;
-		this._certPath = certPath;
-		this._certPassphrase = certPassphrase;
-	}
 
 	public JsonObject sendHttpPost(JsonObject object, String requestUrl) throws LedgefarmException, IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, KeyManagementException, UnrecoverableKeyException {
 		 

@@ -20,10 +20,6 @@ public class WalletService extends LedgefarmService {
 		super(accessKey);
 	}
 	
-	public WalletService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
-		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
-	}
-	
 	public Wallet create(WalletRequest walletRequest) throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
 		JsonObject dataObj = new JsonObject();
 		dataObj.addProperty("walletName", walletRequest.getWallet());

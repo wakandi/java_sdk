@@ -23,10 +23,6 @@ public class OperatorService  extends LedgefarmService {
 		super(accessKey);
 	}	
 	
-	public OperatorService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
-		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
-	}
-	
 	public List<Token> get() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "global/wallet");
 		return this.mapToTokenObject(responseObject);

@@ -23,10 +23,6 @@ public class TokenService extends LedgefarmService {
 		super(accessKey);
 	}
 	
-	public TokenService(String accessKey, String apiKey, String apiUrl, String certPath, String certPassphrase) {
-		super(accessKey, apiKey, apiUrl, certPath, certPassphrase);
-	}
-	
 	public Transaction issue(String toWallet, String token, double amount, List<Fee> fee)
 			throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(fee));
