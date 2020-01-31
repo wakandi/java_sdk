@@ -3,6 +3,7 @@ package ledgefarm.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -23,6 +24,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -36,6 +38,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import ledgefarm.exceptions.LedgefarmException;
 import ledgefarm.utils.ReadConfigFile;
 
 public class LedgefarmService {
@@ -52,7 +55,7 @@ public class LedgefarmService {
 		this.getConfiguration();
 	}
 
-	public JsonObject sendHttpPost(JsonObject object, String requestUrl) throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, KeyManagementException, UnrecoverableKeyException {
+	public JsonObject sendHttpPost(JsonObject object, String requestUrl) throws LedgefarmException, IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, KeyManagementException, UnrecoverableKeyException {
 		 
 	      //Building the CloseableHttpClient
 	      CloseableHttpClient httpclient = getHttpClient();
@@ -70,7 +73,7 @@ public class LedgefarmService {
 			httpPost.setHeader("accessKey", this._accessKey);
 			execute = httpclient.execute(httpPost);
 			jsonObject = this.deseralize(execute);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println(e);
 		} finally {
 			httpclient.close();
@@ -78,7 +81,7 @@ public class LedgefarmService {
 		return jsonObject;
 	}
 	
-	public JsonObject sendFileHttpPost(HttpEntity object, String requestUrl) throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, KeyManagementException, UnrecoverableKeyException {
+	public JsonObject sendFileHttpPost(HttpEntity object, String requestUrl) throws LedgefarmException, IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, KeyManagementException, UnrecoverableKeyException {
 		 
 	      //Building the CloseableHttpClient
 	      CloseableHttpClient httpclient = getHttpClient();
@@ -100,7 +103,7 @@ public class LedgefarmService {
 		return jsonObject;
 	}
 
-	public JsonObject sendHttpPut(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+	public JsonObject sendHttpPut(JsonObject object, String requestUrl) throws LedgefarmException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		CloseableHttpResponse execute = null;
 		JsonObject jsonObject = null;
 		String requestJson = "{}";
@@ -124,8 +127,34 @@ public class LedgefarmService {
 		}
 		return jsonObject;
 	}
+	
+	public JsonObject sendHttpPutArray(JsonArray array, String requestUrl) throws LedgefarmException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+		CloseableHttpResponse execute = null;
+		JsonObject jsonObject = null;
+		String requestJson = "{}";
+		if(array!=null)
+		{
+			requestJson = new Gson().toJson(array);
+		}
+		CloseableHttpClient httpclient =  getHttpClient();
+		try {
+			HttpPut httpPut = new HttpPut(this._apiUrl + requestUrl);
+			StringEntity entity = new StringEntity(requestJson, "UTF-8");
+			entity.setContentType("application/json");
+			httpPut.setEntity(entity);
+			httpPut.setHeader("apiKey", this._apiKey);
+			httpPut.setHeader("accessKey", this._accessKey);
+			execute = httpclient.execute(httpPut);
+			jsonObject = this.deseralize(execute);
+		} catch (Exception e) {
+			System.out.println("Error : " + e);
+		} finally {
+			httpclient.close();
+		}
+		return jsonObject;
+	}
 
-	public JsonObject sendHttpGet(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+	public JsonObject sendHttpGet(JsonObject object, String requestUrl) throws LedgefarmException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		CloseableHttpResponse execute = null;
 		JsonObject jsonObject = null;
 		CloseableHttpClient httpClient =  getHttpClient();
@@ -136,42 +165,81 @@ public class LedgefarmService {
 			execute = httpClient.execute(httpGet);
 			jsonObject = this.deseralize(execute);
 		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			httpClient.close();
 		}
 		return jsonObject;
 	}
 
-	public JsonArray sendFileHttpGet(JsonObject object, String requestUrl) throws IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
+	public InputStream sendFileHttpGet(JsonObject object, String requestUrl) throws LedgefarmException, IOException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		CloseableHttpResponse execute = null;
-		JsonArray jsonObject = null;
+		InputStream reader = null;
 		CloseableHttpClient httpClient =  getHttpClient();
 		try {
 			HttpGet httpGet = new HttpGet(this._apiUrl + requestUrl);
 			httpGet.setHeader("apiKey", this._apiKey);
 			httpGet.setHeader("accessKey", this._accessKey);
+			httpGet.setHeader("content-type", "application/octet-stream");
 			execute = httpClient.execute(httpGet);
-			String responseStr = EntityUtils.toString(execute.getEntity());
-			return new JsonParser().parse(responseStr).getAsJsonArray();
+			
+			final HttpEntity entity = execute.getEntity();
+			if (entity != null) {
+				BufferedHttpEntity buf = new BufferedHttpEntity(entity);
+				reader = buf.getContent();
+				return reader;
+			} else {
+				return reader;
+			}
 		} catch (IOException e) {
 		} finally {
 			httpClient.close();
 		}
-		return jsonObject;
+		return reader;
 	}
 	
+	private JsonObject deseralize(final CloseableHttpResponse httpResponse) throws IOException, LedgefarmException {
+        JsonObject jObject = null;
+        try {
+        		if (httpResponse.getEntity() != null) {
+                    String responseStr = EntityUtils.toString(httpResponse.getEntity());
+                    if (responseStr != null && !responseStr.isEmpty()) {
+                        int statusCode = httpResponse.getStatusLine().getStatusCode();
+                        jObject = new JsonParser().parse(responseStr).getAsJsonObject();
+                        if (statusCode == 200 || statusCode == 207) {
+    	                    boolean success = jObject.get("success").getAsBoolean();
+    	                    if (success) {
+    	                        return jObject;
+    	                    }
+                        } else {
+                        	deseralizeError(jObject);
+                        }
+                    }	
+        		} else {
+        			jObject = new JsonObject();
+        			jObject.addProperty("success", true);
+                	jObject.add("data", new JsonArray());
+                	return jObject;
+        		}
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        return jObject;
+    }
 	
-	private JsonObject deseralize(final CloseableHttpResponse httpResponse) throws IOException {
+	private void deseralizeError(JsonObject jsonObject) throws IOException, LedgefarmException {
 		JsonObject jObject = null;
-		try {
-			String responseStr = EntityUtils.toString(httpResponse.getEntity());
-			if (responseStr != null && !responseStr.isEmpty()) {
-				jObject = new JsonParser().parse(responseStr).getAsJsonObject();
-			}
-		} catch (IOException e) {
+		if (jsonObject != null &&  jsonObject.get("error") != null && jsonObject.get("error").isJsonObject()) {
+			jObject = jsonObject.getAsJsonObject("error");
+			throw new LedgefarmException(jObject.get("message").getAsString(), jObject.get("error").getAsString());
+		} else if (jsonObject != null && jsonObject.get("results") != null && jsonObject.get("results").isJsonObject()) {
+			jObject = jsonObject.getAsJsonObject("results");
+			JsonArray jsonArray = jObject.get("errors").getAsJsonArray();
+			jObject = jsonArray.get(0).getAsJsonObject();
+			throw new LedgefarmException(jObject.get("message").getAsString(), jObject.get("code").getAsString());
+		} else {
+			throw new LedgefarmException("Service is unavailable", "SERVICE_UNAVAILABLE");
 		}
-
-		return jObject;
 	}
 
 	private void getConfiguration() {

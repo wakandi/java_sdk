@@ -2,12 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ledgefarm.core</groupId>
   <artifactId>com.ledgefarm.core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.200</version>
+  <packaging>jar</packaging>
   <name>com.ledgefarm.core</name>
 	<description>Transfer money outside with private tokens</description>
-	<url>https://github.com/akeo-satish/java-sdk</url>
+	<url>https://github.com/wakandi/java-sdk</url>
 	<organization>
-		<url>https://github.com/akeo-satish</url>
+		<url>https://github.com/wakandi</url>
 		<name>Wakandi</name>
 	</organization>
 	<inceptionYear>2018</inceptionYear>
@@ -19,18 +20,18 @@
 	</licenses>
 	<developers>
 		<developer>
-			<name>Satish Somani</name>
-			<email>satish@akeo.no</email>
+			<name>Vicky Pramanik</name>
+			<email>vicky@akeo.no</email>
 			<organization>Wakandi</organization>
-			<organizationUrl>https://github.com/akeo-satish</organizationUrl>
+			<organizationUrl>https://github.com/wakandi</organizationUrl>
 			<timezone>UTC+05:30</timezone>
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git://github.com/akeo-satish/java-sdk.git</connection>
-		<developerConnection>scm:git:git@github.com:akeo-satish/java-sdk.git</developerConnection>
-		<url>https://github.com/akeo-satish/java-sdk</url>
-		<tag>com.ledgefarm.core-1.0.1909111027</tag>
+		<connection>scm:git:git://github.com/wakandi/java-sdk.git</connection>
+		<developerConnection>scm:git:git@github.com:wakandi/java-sdk.git</developerConnection>
+		<url>https://github.com/wakandi/java_sdk</url>
+		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
@@ -125,9 +126,6 @@
 				<executions>
 					<execution>
 						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
 					</execution>
 				</executions>
 				</plugin>

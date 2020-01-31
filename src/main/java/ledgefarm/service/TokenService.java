@@ -7,8 +7,10 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,7 +22,7 @@ public class TokenService extends LedgefarmService {
 	public TokenService(String accessKey) {
 		super(accessKey);
 	}
-
+	
 	public Transaction issue(String toWallet, String token, double amount, List<Fee> fee)
 			throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(fee));
@@ -33,7 +35,7 @@ public class TokenService extends LedgefarmService {
 		return this.mapToTransactionObject(responseObject);
 	}
 
-	public Transaction issue(String toWallet, String token, double amount, String transactionNumber, String paymentMode,
+	public Transaction issue(String toWallet, String token, double amount, String transactionId,
 			List<Fee> fee) throws IOException, LedgefarmException, KeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
 		JsonElement jsonTree = new JsonParser().parse(super.gson.toJson(fee));
 		JsonObject dataObj = new JsonObject();
@@ -41,8 +43,7 @@ public class TokenService extends LedgefarmService {
 		dataObj.addProperty("token", token);
 		dataObj.add("fee", jsonTree);
 		dataObj.addProperty("toWallet", toWallet);
-		dataObj.addProperty("transactionNumber", transactionNumber);
-		dataObj.addProperty("paymentMode", paymentMode);
+		dataObj.addProperty("transactionId", transactionId);
 		JsonObject responseObject = super.sendHttpPost(dataObj, "token/issue");
 		return this.mapToTransactionObject(responseObject);
 	}
@@ -56,6 +57,20 @@ public class TokenService extends LedgefarmService {
 		dataObj.add("fee", jsonTree);
 		dataObj.addProperty("toWallet", toWallet);
 		JsonObject responseObject = super.sendHttpPost(dataObj, "token/transfer");
+		return this.mapToTransactionObject(responseObject);
+	}
+	
+	public final Transaction batchTransfer(String token, double amount, String memo, List<Fee> fee, List<BatchTransferRequest> batch)
+			throws IOException, LedgefarmException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException {
+		JsonElement jsonTreeFee = new JsonParser().parse(super.gson.toJson(fee));
+		JsonElement jsonTreeBatch = new JsonParser().parse(super.gson.toJson(batch));
+		JsonObject dataObj = new JsonObject();
+		dataObj.addProperty("token", token);
+		dataObj.addProperty("amount", new Double(amount));
+		dataObj.addProperty("memo", memo);
+		dataObj.add("fee", jsonTreeFee);
+		dataObj.add("batchTransferRequest", jsonTreeBatch);
+		JsonObject responseObject = super.sendHttpPost(dataObj, "token/transfer/batch");
 		return this.mapToTransactionObject(responseObject);
 	}
 
@@ -104,19 +119,23 @@ public class TokenService extends LedgefarmService {
 		return this.mapToTransactionObject(responseObject);
 	}
 
-	public Token get(String token) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
+	public List<Token> get(String token) throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException  {
 		JsonObject responseObject = super.sendHttpGet(null, "token/"+token);
 		return this.mapToTokenObject(responseObject);
 	}
 	
-	private Token mapToTokenObject(JsonObject jsonObject) throws LedgefarmException {
+	private List<Token>  mapToTokenObject(JsonObject jsonObject) throws LedgefarmException {
 		boolean success = jsonObject.get("success").getAsBoolean();
 		if (success) {
-			JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
-			return gson.fromJson(obj, Token.class);
+			final ArrayList<Token> tokens = new ArrayList<>();
+			JsonArray jarray = jsonObject.getAsJsonArray("data");
+			for(JsonElement obj : jarray) {
+			      Token token = gson.fromJson(obj, Token.class);      
+			      tokens.add(token);
+			    }
+			return tokens;
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 	
 	private Transaction mapToTransactionObject(JsonObject jsonObject) throws LedgefarmException {
@@ -125,7 +144,6 @@ public class TokenService extends LedgefarmService {
 			JsonElement obj = gson.fromJson(jsonObject.getAsJsonObject("data").toString(), JsonElement.class);
 			return gson.fromJson(obj, Transaction.class);
 		}
-		JsonObject object = jsonObject.getAsJsonObject("error");
-		throw new LedgefarmException(object.get("message").getAsString(), object.get("error").getAsString());
+		return null;
 	}
 }
