@@ -44,7 +44,7 @@ Services that are available in this package:
 ### Wallet Service
 Wallet service is used to perform all operations related to the wallet like creating wallet, blocking and unblocking a wallet, obtain wallet data etc.
 #### Methods:
--   Create : This function is used to create a user wallet. You need to pass a username of the wallet (Walletname) that needs to be created. In response, the packageit will return the wallet address and access key for that wallet. This access key will be used for further operations using this wallet.
+-   Create : This function is used to create a wallet. You need to pass a username of the wallet (Walletname) that needs to be created and some basic information about the user to available that wallet for other operator. In response, the packageit will return the wallet address and access Key for that wallet. This access Key will be used for further operations using this wallet.
 
 ```
 		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
@@ -75,7 +75,7 @@ Wallet service is used to perform all operations related to the wallet like crea
 		List<Wallet> walletListResponse = walletService.getAll(limit, offset);
 ```
 
--   Search: This function is used to search the information of a particular wallet by using there walletname or email or phone number and countryCode. Here first parameter is search field which can be walletname or email or phone number and second parameter is countryCode, if search by phone then countryCode need to be pass and if search using walletname or email then pass second parameter as null. This Admin access key need to be used here for getting the wallet of a user.
+-   Search: This function is used to search a wallet. User can search wallet using wallet address, phone number and email. Admin access key is required for searching the wallet in directory service.
 
 ```
         String walletName = “abc@wallxxxxx”;
@@ -90,7 +90,7 @@ Wallet service is used to perform all operations related to the wallet like crea
         List<Wallet> walletResponse = walletService.search(phone, countryCode);
 ```
 
--   Update: This function is used to update the user wallet details. Block operation can be performed using with user wallet address and blocked as a true. Unblock  operation can be performed using with user wallet address and blocked as a false. Updating wallet as private or public can be performed using user wallet address and isPublic true/false and other fields are optional. Admin access key need to be used here for update user wallet.
+-   Update: This function is used to update a wallet. The Operator needs to pass a wallet address to update the wallet and information that need to be updated. Admin access key is required for unblocking the wallet.
 
 ```
 		WalletService walletService = new WalletService(“xxxxxxxxxxxxxxxxxxxxxx”);
@@ -161,7 +161,7 @@ Asset service is used to perform all the operations related to assets. Which inc
 		Transaction TransactionResponse = assetService.request(fromWalletName, asset, amount);
 ```
 
--   batchTransfer: This function is used to send assets to multipal user. In this function wallet address of the user from asset need to be requested, asset name and amount need to be passed for the requesting assets. User’s access key (request sender) need to be used here for sending requests to other users.
+-   Batch Transfer : This function is used to transfer tokens from one wallet to multiple wallets. The Operator needs to pass wallet address to which the token needs to be transferred, token name, amount, and list of all applicable fees for transferring tokens to the wallet. Here, wallet’s access token (sender) is required to transfer the tokens from wallet.
 
 ```
 			TokenService service =  new TokenService(“xxxxxxxxxxxxxxxxxxxxxx”);
