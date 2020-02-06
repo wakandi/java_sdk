@@ -43,15 +43,14 @@ public class WalletServiceTest {
 	public double netBalance;
 	public TokenService tokenService;
 	public OperatorService operatorService;
-	public BatchService batchService;
 	//final static Logger LOG = LoggerFactory.getLogger(GetWalletPageSteps.class);
 
 	@Test
     public void CreateWallet() throws IOException,LedgefarmException, KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException
     {
-		WalletService service =  new WalletService("d27d9e7d067bc16d16e3516559a26796dda34f259561dfa7f6067434341105c4");
-		try {
-			WalletRequest walletRequest;
+	//	WalletService service =  new WalletService("d27d9e7d067bc16d16e3516559a26796dda34f259561dfa7f6067434341105c4");
+	//	try {
+	//		WalletRequest walletRequest;
 //			System.out.println("========== Wallet Create ==========");
 //			walletRequest = new WalletRequest();
 //			walletRequest.setWallet("seno");
@@ -66,79 +65,79 @@ public class WalletServiceTest {
 //			System.out.println("========== Wallet Create ==========");
 //			System.out.println("\n");
 			
-			System.out.println("========== Wallet Update ==========");
-			walletRequest = new WalletRequest();
-			walletRequest.setBlocked(true);
-			walletRequest.setWallet("seno@devop1.example.com");
-			walletRequest.setName("Seno suko");
-			walletRequest.setEmail("senosuko@gmail.com");
-			walletRequest.setCountryCode("+91");
-			walletRequest.setPhone("9529737955");
-			wallet = service.update(walletRequest);
-			System.out.println("Wallet blocked " + wallet.getBlocked());
-			System.out.println("Wallet isPublic " + wallet.getIsPublic());
-			System.out.println("========== Wallet Update ==========");
-			System.out.println("\n");
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		walletRequest = new WalletRequest();
+	// 		walletRequest.setBlocked(true);
+	// 		walletRequest.setWallet("seno@devop1.example.com");
+	// 		walletRequest.setName("Seno suko");
+	// 		walletRequest.setEmail("senosuko@gmail.com");
+	// 		walletRequest.setCountryCode("+91");
+	// 		walletRequest.setPhone("9529737955");
+	// 		wallet = service.update(walletRequest);
+	// 		System.out.println("Wallet blocked " + wallet.getBlocked());
+	// 		System.out.println("Wallet isPublic " + wallet.getIsPublic());
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		System.out.println("\n");
 			
-			System.out.println("========== Wallet Update ==========");
-			walletRequest = new WalletRequest();
-			walletRequest.setBlocked(true);
-			walletRequest.setWallet("seno@devop1.example.com");
-			walletRequest.setName("Seno suko");
-			walletRequest.setEmail("senosuko@gmail.com");
-			walletRequest.setCountryCode("+91");
-			walletRequest.setPhone("9529737955");
-			wallet = service.update(walletRequest);
-			System.out.println("Wallet blocked " + wallet.getBlocked());
-			System.out.println("Wallet isPublic " + wallet.getIsPublic());
-			System.out.println("========== Wallet Update ==========");
-			System.out.println("\n");
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		walletRequest = new WalletRequest();
+	// 		walletRequest.setBlocked(true);
+	// 		walletRequest.setWallet("seno@devop1.example.com");
+	// 		walletRequest.setName("Seno suko");
+	// 		walletRequest.setEmail("senosuko@gmail.com");
+	// 		walletRequest.setCountryCode("+91");
+	// 		walletRequest.setPhone("9529737955");
+	// 		wallet = service.update(walletRequest);
+	// 		System.out.println("Wallet blocked " + wallet.getBlocked());
+	// 		System.out.println("Wallet isPublic " + wallet.getIsPublic());
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		System.out.println("\n");
 			
-			System.out.println("========== Wallet Update ==========");
-			walletRequest = new WalletRequest();
-			walletRequest.setBlocked(false);
-			walletRequest.setWallet("seno@devop1.example.com");
-			walletRequest.setName("Seno suko");
-			walletRequest.setEmail("senosuko@gmail.com");
-			walletRequest.setCountryCode("+91");
-			walletRequest.setPhone("9529737955");
-			wallet = service.update(walletRequest);
-			System.out.println("Wallet blocked " + wallet.getBlocked());
-			System.out.println("Wallet isPublic " + wallet.getIsPublic());
-			System.out.println("========== Wallet Update ==========");
-			System.out.println("\n");
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		walletRequest = new WalletRequest();
+	// 		walletRequest.setBlocked(false);
+	// 		walletRequest.setWallet("seno@devop1.example.com");
+	// 		walletRequest.setName("Seno suko");
+	// 		walletRequest.setEmail("senosuko@gmail.com");
+	// 		walletRequest.setCountryCode("+91");
+	// 		walletRequest.setPhone("9529737955");
+	// 		wallet = service.update(walletRequest);
+	// 		System.out.println("Wallet blocked " + wallet.getBlocked());
+	// 		System.out.println("Wallet isPublic " + wallet.getIsPublic());
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		System.out.println("\n");
 			
-			System.out.println("========== Wallet Update ==========");
-			walletRequest = new WalletRequest();
-			walletRequest.setBlocked(false);
-			walletRequest.setWallet("seno@devop1.example.com");
-			walletRequest.setName("Seno suko");
-			walletRequest.setEmail("senosuko@gmail.com");
-			walletRequest.setCountryCode("+91");
-			walletRequest.setPhone("9529737955");
-			wallet = service.update(walletRequest);
-			System.out.println("Wallet blocked " + wallet.getBlocked());
-			System.out.println("Wallet isPublic " + wallet.getIsPublic());
-			System.out.println("========== Wallet Update ==========");
-			System.out.println("\n");
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		walletRequest = new WalletRequest();
+	// 		walletRequest.setBlocked(false);
+	// 		walletRequest.setWallet("seno@devop1.example.com");
+	// 		walletRequest.setName("Seno suko");
+	// 		walletRequest.setEmail("senosuko@gmail.com");
+	// 		walletRequest.setCountryCode("+91");
+	// 		walletRequest.setPhone("9529737955");
+	// 		wallet = service.update(walletRequest);
+	// 		System.out.println("Wallet blocked " + wallet.getBlocked());
+	// 		System.out.println("Wallet isPublic " + wallet.getIsPublic());
+	// 		System.out.println("========== Wallet Update ==========");
+	// 		System.out.println("\n");
 			
-			System.out.println("========== Directory Search ==========");
-			List<Wallet> wallets = service.search("shen@devop1.example.com", null);
-			for (int i = 0; i < wallets.size(); i++) {
-				System.out.println("Name                  " + wallets.get(i).getName());
-				System.out.println("Wallet                " + wallets.get(i).getWallet());
-				System.out.println("operator country      " + wallets.get(i).getOperator().getCountry());
-				System.out.println("operator domain       " + wallets.get(i).getOperator().getDomainName());
-				System.out.println("operator organization " + wallets.get(i).getOperator().getDomainName());
-			}
-			System.out.println("========== Directory Search ==========");
-			System.out.println("\n");
-		}
-		catch(LedgefarmException ex)
-		{
-			System.out.println("ex " + ex.getMessage());
-		}
-    }
+	// 		System.out.println("========== Directory Search ==========");
+	// 		List<Wallet> wallets = service.search("shen@devop1.example.com", null);
+	// 		for (int i = 0; i < wallets.size(); i++) {
+	// 			System.out.println("Name                  " + wallets.get(i).getName());
+	// 			System.out.println("Wallet                " + wallets.get(i).getWallet());
+	// 			System.out.println("operator country      " + wallets.get(i).getOperator().getCountry());
+	// 			System.out.println("operator domain       " + wallets.get(i).getOperator().getDomainName());
+	// 			System.out.println("operator organization " + wallets.get(i).getOperator().getDomainName());
+	// 		}
+	// 		System.out.println("========== Directory Search ==========");
+	// 		System.out.println("\n");
+	// 	}
+	// 	catch(LedgefarmException ex)
+	// 	{
+	// 		System.out.println("ex " + ex.getMessage());
+	// 	}
+    // }
 	
 //	@Test
 //	public void Issue() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, LedgefarmException {
